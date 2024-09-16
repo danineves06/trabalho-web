@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Cor;
 use App\Models\Marca;
+use App\Models\Modelo;
+use App\Models\Estado;
 use Dompdf\Dompdf;
 
 
@@ -11,7 +14,7 @@ class MarcaController extends Controller
 {
 
     private $regras = [
-            'name' => 'required|max:30|min:2|unique:cores',
+            'name' => 'required|max:30|min:2|unique:marcas',
         ];
 
         private $msgs = [
@@ -24,17 +27,17 @@ class MarcaController extends Controller
     {
         $data = Marca::all();
         return view('marca.index', compact(['data']));
-        
+
     }
 
-    
+
     public function create()
     {
         return view('marca.create');
 
     }
 
-    
+
     public function store(Request $request)
     {
         $request->validate($this->regras, $this->msgs);
@@ -56,7 +59,7 @@ class MarcaController extends Controller
         return "<h1>MARCA NÃO ENCONTRADA</h1>";
     }
 
-   
+
     public function edit($id)
     {
         $marca = Marca::find($id);
@@ -68,7 +71,7 @@ class MarcaController extends Controller
        return "<h1>MARCA NÃO ENCONTRADA</h1>";
     }
 
-    
+
     public function update(Request $request, $id)
     {
         $marca = Marca::find($id);
@@ -82,7 +85,7 @@ class MarcaController extends Controller
        return "<h1>MARCA NÃO ENCONTRADA</h1>";
     }
 
-    
+
     public function destroy($id)
     {
         $marca = Marca::find($id);
@@ -90,35 +93,35 @@ class MarcaController extends Controller
         if(isset($marca))
         {
             $marca->delete();
-            
+
             return redirect()->route('marca.index');
         }
         return "<h1>MARCA NÃO ENCONTRADA</h1>";
 
     }
-    /*public function report($id){
+    public function report($id){
 
-        $cursos = Curso::where('eixo_id', $id)->get();
+        $carros = Carros::where('marca_id', $id)->get();
 
         $dompdf = new Dompdf();
-        $dompdf->loadHtml(view('eixo.report', compact('cursos')));
+        $dompdf->loadHtml(view('marca.report', compact('carros')));
         $dompdf->setPaper('A4', 'landscape');
         $dompdf->render();
-        $dompdf->stream("relatorio-horas-turma.pdf", array("Attachment" => false));
+        $dompdf->stream("relatorio-carros.pdf", array("Attachment" => false));
     }
 
     public function graph(){
 
 
-        $eixos = Eixo::with('curso')->orderBy('name')->get();
+        $marcas = Marca::with('carro')->orderBy('name')->get();
 
 
         $data = [
-            ["EIXO", "NÚMERO DE CURSOS"]
-            
+            ["MARCA", "NÚMERO DE CARROS"]
+
         ];
         $cont = 1;
-        foreach($eixos as $item){
+        foreach($marcas as $item){
             $data[$cont] = [
                 $item->name, count($item->curso)
             ];
@@ -127,7 +130,7 @@ class MarcaController extends Controller
         //dd($data);
 
         $data = json_encode($data);
-            
-            return view('eixo.graph', compact(['data']));
-    }*/
+
+            return view('marca.graph', compact(['data']));
+    }
 }

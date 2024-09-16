@@ -17,6 +17,7 @@ class Estados extends Migration
             $table->id();
             $table->string('name', 30);
             $table->string('abreviatura', 2);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

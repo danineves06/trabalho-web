@@ -15,12 +15,12 @@ class Carros extends Migration
     {
         Schema::create('carros', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 100);
+            $table->string('placa', 8);
             $table->unsignedBigInteger('cor_id');
-            $table->foreign('cor_id')->references('id')->on('cores');
-            $table->unsignedBigInteger('marca_id');
-            $table->foreign('marca_id')->references('id')->on('marcas');
+            $table->unsignedBigInteger('estado_id');
             $table->unsignedBigInteger('modelo_id');
+            $table->foreign('cor_id')->references('id')->on('cors');
+            $table->foreign('estado_id')->references('id')->on('estados');
             $table->foreign('modelo_id')->references('id')->on('modelos');
             $table->softDeletes();
             $table->timestamps();

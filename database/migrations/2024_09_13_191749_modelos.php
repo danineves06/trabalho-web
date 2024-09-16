@@ -17,7 +17,8 @@ class Modelos extends Migration
             $table->id();
             $table->string('name', 30);
             $table->unsignedBigInteger('marca_id');
-            $table->foreign('marca_id')->references('id')->on('marca');
+            $table->foreign('marca_id')->references('id')->on('marcas');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
