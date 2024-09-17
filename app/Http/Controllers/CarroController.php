@@ -26,24 +26,38 @@ class CarroController extends Controller
 
     public function index()
     {
-        $data = Carro::all();
-        return view('carro.index', compact(['data']));
-        
+
+        $data = Carro::with('modelo')->get();
+        return view('carro.index', compact('data'));
+
+        $data = Carro::with('estado')->get();
+        return view('carro.index', compact('data'));
+
+        $data = Carro::with('cor')->get();
+        return view('carro.index', compact('data'));
+
+
     }
 
-    
+
     public function create()
     {
-        return view('carro.create');
+        $estados = Estado::all();
+        $cors = Cor::all();
+        $modelos = Modelo::all();
+        return view('carro.create', compact('modelos', 'cors', 'estados'));
 
     }
 
-    
+
     public function store(Request $request)
     {
         $request->validate($this->regras, $this->msgs);
         $carro = new Carro();
-        $carro->name = $request->name;
+        $carro->placa = $request->placa;
+        $carro->modelo_id = $request->modelo_id;
+        $carro->estado_id = $request->estado_id;
+        $carro->cor_id = $request->cor_id;
         $carro->save();
 
         return redirect()->route('carro.index');
@@ -58,35 +72,44 @@ class CarroController extends Controller
             return view('carro.show', compact('carro'));
         }
         return "<h1>CARRO NÃO ENCONTRADO</h1>";
+
     }
 
-   
+
     public function edit($id)
     {
         $carro = Carro::find($id);
 
+        $modelos = Modelo::all();
+        $estados = Estado::all();
+        $cors = Cor::all();
+
         if(isset($carro))
         {
-            return view('carro.edit', compact('carro'));
+            return view('carro.edit', compact('carro', 'modelos', 'estados', 'cors'));
         }
        return "<h1>CARRO NÃO ENCONTRADO</h1>";
     }
 
-    
+
     public function update(Request $request, $id)
     {
         $carro = Carro::find($id);
 
+
         if(isset($carro))
         {
-            $carro->name = $request->name;
+            $carro->placa = $request->placa;
+            $carro->modelo_id = $request->modelo_id;
+            $carro->estado_id = $request->estado_id;
+            $carro->cor_id = $request->cor_id;
             $carro->save();
             return redirect()->route('carro.index');
         }
        return "<h1>CARRO NÃO ENCONTRADO</h1>";
     }
 
-    
+
     public function destroy($id)
     {
         $carro = Carro::find($id);
@@ -94,7 +117,7 @@ class CarroController extends Controller
         if(isset($carro))
         {
             $carro->delete();
-            
+
             return redirect()->route('carro.index');
         }
         return "<h1>CARRO NÃO ENCONTRADO</h1>";
@@ -119,7 +142,7 @@ class CarroController extends Controller
 
         $data = [
             ["CARRO", "NÚMERO DE CARROS"]
-            
+
         ];
         $cont = 1;
         foreach($carros as $item){
@@ -131,7 +154,7 @@ class CarroController extends Controller
         //dd($data);
 
         $data = json_encode($data);
-            
+
             return view('carros.graph', compact(['data']));
     }
 }

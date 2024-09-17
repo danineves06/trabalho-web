@@ -83,7 +83,6 @@ class ModeloController extends Controller
         if(isset($modelo))
         {
             $modelo->name = $request->name;
-            $modelo->description = $request->description;
             $modelo->save();
             return redirect()->route('modelo.index');
         }

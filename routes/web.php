@@ -1,9 +1,10 @@
 <?php
-
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CorController;
 use App\Http\Controllers\MarcaController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ModeloController;
+use App\Http\Controllers\CarroController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -23,3 +24,6 @@ Route::get('/', function () {
 Route::resource('/cor', CorController::class);
 Route::resource('/marca', MarcaController::class);
 Route::resource('/modelo', ModeloController::class);
+Route::resource('/carro', CarroController::class);
+Route::get('/report/cors/{cor_id}', 'App\Http\Controllers\CorController@report')->name('cor.report');
+
