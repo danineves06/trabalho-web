@@ -15,7 +15,7 @@ class CarroController extends Controller
 {
 
     private $regras = [
-            'placa' => 'required|max:8|min:8|unique:carros',
+            'placa' => 'required|max:8|min:8',
         ];
 
         private $msgs = [
@@ -123,9 +123,9 @@ class CarroController extends Controller
         return "<h1>CARRO NÃO ENCONTRADO</h1>";
 
     }
-    public function report($id){
+    public function report(){
 
-        $carros = Carros::where('carro_id', $id)->get();
+        $carros = Carro::with('cor', 'modelo', 'estado')->get();
 
         $dompdf = new Dompdf();
         $dompdf->loadHtml(view('carro.report', compact('carros')));
@@ -137,7 +137,7 @@ class CarroController extends Controller
     public function graph(){
 
 
-        $carros = Carros::with('carro')->orderBy('name')->get();
+        $carros = Carro::with('carro')->orderBy('name')->get();
 
 
         $data = [

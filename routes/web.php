@@ -1,10 +1,10 @@
 <?php
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CorController;
 use App\Http\Controllers\MarcaController;
 use App\Http\Controllers\ModeloController;
 use App\Http\Controllers\CarroController;
-
 
 /*
 |--------------------------------------------------------------------------
@@ -18,12 +18,18 @@ use App\Http\Controllers\CarroController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('home');
+})->middleware(['auth'])->name('home');
+
 
 Route::resource('/cor', CorController::class);
 Route::resource('/marca', MarcaController::class);
 Route::resource('/modelo', ModeloController::class);
 Route::resource('/carro', CarroController::class);
-Route::get('/report/carro/{carro_id}', 'App\Http\Controllers\CarroController@report')->name('carro.report');
+Route::get('/report/carro', 'App\Http\Controllers\CarroController@report')->name('carro.report');
 
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
+
+require __DIR__.'/auth.php';

@@ -7,6 +7,7 @@ use App\Models\Cor;
 use App\Models\Marca;
 use App\Models\Modelo;
 use App\Models\Estado;
+use App\Models\Carro;
 use Dompdf\Dompdf;
 
 
@@ -14,7 +15,7 @@ class CorController extends Controller
 {
 
     private $regras = [
-            'name' => 'required|max:30|min:2|unique:cors',
+            'name' => 'required|max:30|min:2',
         ];
 
         private $msgs = [
@@ -103,7 +104,7 @@ class CorController extends Controller
     }
     public function report($id){
 
-        $carros = Carros::where('cor_id', $id)->get();
+        $carros = Carro::where('cor_id', $id)->get();
 
         $dompdf = new Dompdf();
         $dompdf->loadHtml(view('cor.report', compact('carros')));
