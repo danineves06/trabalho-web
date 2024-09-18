@@ -25,5 +25,5 @@ Route::resource('/cor', CorController::class);
 Route::resource('/marca', MarcaController::class);
 Route::resource('/modelo', ModeloController::class);
 Route::resource('/carro', CarroController::class);
-Route::get('/report/cors/{cor_id}', 'App\Http\Controllers\CorController@report')->name('cor.report');
+Route::get('/report/carro/{carro_id}', 'App\Http\Controllers\CarroController@report')->name('carro.report');
 

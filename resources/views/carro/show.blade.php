@@ -4,7 +4,7 @@
 
         <legend class="list-group-item active" aria-current="true">{{$carro->name}}</legend>
         <label class="mt-3">Placa</label>
-        <input type="text" name="name" class="form-control mt-3" value="{{$placa->name}}" disabled/>
+        <input type="text" name="name" class="form-control mt-3" value="{{$carro->placa}}" disabled/>
         <ul class="list-group mt-2">
             <p class="card-text">
                 <b>Modelo: </b> {{$carro->modelo->name}}
